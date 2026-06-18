@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiAlertCircle } from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc";
 import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
@@ -11,6 +12,7 @@ export default function LoginPage() {
     const [form, setForm] = useState({ email: "", password: "" });
     const [showPass, setShowPass] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
     const [error, setError] = useState("");
 
     const handleChange = (e) =>
@@ -33,6 +35,20 @@ export default function LoginPage() {
             setError("Something went wrong. Please try again.");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleGoogleSignIn = async () => {
+        setError("");
+        setGoogleLoading(true);
+        try {
+            await signIn.social({
+                provider: "google",
+                callbackURL: "/",
+            });
+        } catch {
+            setError("Google sign-in failed. Please try again.");
+            setGoogleLoading(false);
         }
     };
 
@@ -125,7 +141,7 @@ export default function LoginPage() {
                             {/* Submit */}
                             <button
                                 type="submit"
-                                disabled={loading}
+                                disabled={loading || googleLoading}
                                 className="btn w-full mt-2 h-11 min-h-[2.75rem] rounded-lg transition-colors text-[var(--cream)] bg-[var(--ink)] hover:bg-[var(--ink-2)] border-none normal-case font-medium text-sm"
                             >
                                 {loading && <span className="loading loading-spinner loading-sm text-[var(--cream)]" />}
@@ -135,7 +151,22 @@ export default function LoginPage() {
 
                         <div className="divider text-[var(--ink-3)] text-xs my-5 before:bg-[var(--border)] after:bg-[var(--border)]">or</div>
 
-                        <p className="text-center text-sm text-[var(--ink-3)]">
+                        {/* Google Sign In */}
+                        <button
+                            type="button"
+                            disabled={loading || googleLoading}
+                            onClick={handleGoogleSignIn}
+                            className="btn w-full h-11 min-h-[2.75rem] rounded-lg transition-colors bg-[var(--cream)] hover:bg-[var(--cream-2)] border border-[var(--border)] text-[var(--ink)] normal-case font-medium text-sm flex items-center justify-center gap-2"
+                        >
+                            {googleLoading ? (
+                                <span className="loading loading-spinner loading-sm text-[var(--ink)]" />
+                            ) : (
+                                <FcGoogle size={18} />
+                            )}
+                            Continue with Google
+                        </button>
+
+                        <p className="text-center text-sm text-[var(--ink-3)] mt-6">
                             Don&apos;t have an account?{" "}
                             <Link href="/register" className="text-[var(--amber)] font-medium no-underline hover:underline">
                                 Create one
