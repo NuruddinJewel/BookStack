@@ -37,22 +37,6 @@ export default function Navbar() {
     };
 
     return (
-        // <header
-        //     style={{
-
-        //         background: "var(--cream)",
-
-        //         borderBottom: "1px solid var(--border)",
-
-        //         position: "sticky",
-
-        //         top: 0,
-
-        //         zIndex: 50,
-
-        //     }}
-        // >
-
         <header
             className="sticky top-0 z-50"
             style={{
