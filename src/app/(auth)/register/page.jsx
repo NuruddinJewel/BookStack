@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiAlertCircle } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { signUp, signIn } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -24,10 +25,19 @@ export default function RegisterPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-        if (form.password !== form.confirmPassword)
-            return setError("Passwords do not match.");
-        if (form.password.length < 8)
-            return setError("Password must be at least 8 characters.");
+
+        if (form.password !== form.confirmPassword) {
+            const msg = "Passwords do not match.";
+            setError(msg);
+            toast.error(msg);
+            return;
+        }
+        if (form.password.length < 8) {
+            const msg = "Password must be at least 8 characters.";
+            setError(msg);
+            toast.error(msg);
+            return;
+        }
 
         setLoading(true);
         try {
@@ -36,12 +46,21 @@ export default function RegisterPage() {
                 email: form.email,
                 password: form.password,
             });
-            if (authError) return setError(authError.message || "Registration failed.");
 
+            if (authError) {
+                const msg = authError.message || "Registration failed.";
+                setError(msg);
+                toast.error(msg);
+                return;
+            }
+
+            toast.success("Account created successfully!");
             router.push("/");
             router.refresh();
         } catch {
-            setError("Something went wrong. Please try again.");
+            const msg = "Something went wrong. Please try again.";
+            setError(msg);
+            toast.error(msg);
         } finally {
             setLoading(false);
         }
@@ -56,7 +75,9 @@ export default function RegisterPage() {
                 callbackURL: "/",
             });
         } catch {
-            setError("Google sign-in failed. Please try again.");
+            const msg = "Google sign-in failed. Please try again.";
+            setError(msg);
+            toast.error(msg); // <-- টোস্ট এরর
             setGoogleLoading(false);
         }
     };

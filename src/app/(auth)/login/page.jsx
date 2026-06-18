@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiAlertCircle } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -27,13 +28,21 @@ export default function LoginPage() {
                 email: form.email,
                 password: form.password,
             });
-            if (authError) return setError(authError.message || "Invalid email or password.");
 
+            if (authError) {
+                const errMsg = authError.message || "Invalid email or password.";
+                setError(errMsg);
+                toast.error(errMsg);
+                return;
+            }
+
+            toast.success("Successfully signed in!");
             router.push("/");
             router.refresh();
         } catch {
-            setError("Something went wrong. Please try again.");
-        } finally {
+            const errMsg = "Something went wrong. Please try again.";
+            setError(errMsg);
+            toast.error(errMsg);
             setLoading(false);
         }
     };
@@ -46,8 +55,11 @@ export default function LoginPage() {
                 provider: "google",
                 callbackURL: "/",
             });
+
         } catch {
-            setError("Google sign-in failed. Please try again.");
+            const errMsg = "Google sign-in failed. Please try again.";
+            setError(errMsg);
+            toast.error(errMsg);
             setGoogleLoading(false);
         }
     };
@@ -112,9 +124,9 @@ export default function LoginPage() {
                                     <span className="label-text text-[var(--ink-2)] text-xs font-medium tracking-wide">
                                         Password
                                     </span>
-                                    <Link href="/forgot-password" className="text-xs text-[var(--amber)] no-underline hover:underline">
+                                    {/* <Link href="/forgot-password" className="text-xs text-[var(--amber)] no-underline hover:underline">
                                         Forgot password?
-                                    </Link>
+                                    </Link> */}
                                 </div>
                                 <label className="input input-bordered bg-[var(--cream-2)] border-[var(--border)] flex items-center gap-2 focus-within:border-[var(--amber)] focus-within:outline-none h-11 rounded-lg">
                                     <FiLock size={14} className="text-[var(--ink-3)] shrink-0" />
