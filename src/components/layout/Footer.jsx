@@ -39,7 +39,7 @@ export default function Footer() {
                                 F<span className="text-amber">.</span>able
                             </span>
                         </Link>
-                        <p className="text-sm text-ink-3 leading-relaxed max-w-[220px]">
+                        <p className="text-sm text-ink-3 leading-relaxed max-w-55">
                             A platform for readers and writers to share original ebooks across every genre.
                         </p>
 
@@ -106,7 +106,7 @@ export default function Footer() {
                         </p>
 
                         {/* Beautiful Input & Button Box */}
-                        <div className="flex flex-col gap-2 max-w-[260px]">
+                        <div className="flex flex-col gap-2 max-w-65">
                             <div className="flex items-center bg-cream border border-border-custom rounded-lg px-3 py-2.5 focus-within:border-amber focus-within:ring-1 focus-within:ring-amber transition-all shadow-sm">
                                 <FiMail size={16} className="text-ink-3 mr-2 shrink-0" />
                                 <input
