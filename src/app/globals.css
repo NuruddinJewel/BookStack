@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+:root {
+  --cream:       #FAF7F2;
+  --cream-2:     #F3EDE2;
+  --cream-3:     #E8DFD0;
+  --ink:         #2C2416;
+  --ink-2:       #5C4F3A;
+  --ink-3:       #8C7B62;
+  --amber:       #BA7517;
+  --amber-light: #FAEEDA;
+  --amber-mid:   #EF9F27;
+  --coral:       #993C1D;
+  --border:      #D8CEBC;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--ink);
+}
