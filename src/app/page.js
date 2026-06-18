@@ -1,5 +1,5 @@
 import HeroBanner from "@/components/home/HeroBanner";
-// import FeaturedEbooks from "@/components/home/FeaturedEbooks";
+import FeaturedEbooks from "@/components/home/FeaturedEbooks";
 // import TopWriters from "@/components/home/TopWriters";
 import GenreGrid from "@/components/home/GenreGrid";
 
@@ -8,8 +8,8 @@ export default function Home() {
     <div>
       <HeroBanner />
       <GenreGrid />
-      {/* <FeaturedEbooks />
-      <TopWriters /> */}
+      <FeaturedEbooks />
+      {/* <TopWriters />  */}
     </div>
   );
 }
