@@ -1,7 +1,7 @@
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
-// import Footer from "@/components/layout/Footer";
+import Footer from "@/components/layout/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col antialiased">
         <Navbar />
         <main className="grow">{children}</main>
-        {/* <Footer /> */}
+        <Footer />
         <ToastContainer
           position="top-right"
           autoClose={3000}
