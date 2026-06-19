@@ -1,4 +1,5 @@
 import DashboardSidebar from "@/components/layout/DashboardSidebar";
+import ErrorBoundary from "@/components/ui/(shared)/ErrorBoundary";
 import PrivateRoute from "@/components/ui/(shared)/PrivateRoute";
 
 
@@ -9,13 +10,15 @@ export const metadata = {
 
 export default function DashboardLayout({ children }) {
     return (
-        <PrivateRoute>
-            <div className="flex min-h-screen bg-[var(--cream)] text-[var(--ink)]">
-                <DashboardSidebar />
-                <main className="flex-1 p-8 overflow-y-auto">
-                    {children}
-                </main>
-            </div>
-        </PrivateRoute>
+        <ErrorBoundary>
+            <PrivateRoute>
+                <div className="flex min-h-screen bg-[var(--cream)] text-[var(--ink)]">
+                    <DashboardSidebar />
+                    <main className="flex-1 p-8 overflow-y-auto">
+                        {children}
+                    </main>
+                </div>
+            </PrivateRoute>
+        </ErrorBoundary>
     );
 }

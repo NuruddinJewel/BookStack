@@ -26,7 +26,6 @@ export default function LoadingSpinner() {
                 Opening the pages...
             </p>
 
-            {/* Custom Tailwind keyframe injecting directly via style if not present in tailwind.config */}
             <style jsx global>{`
                 @keyframes spin {
                     0% { transform: rotateY(0deg); }
