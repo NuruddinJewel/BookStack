@@ -1,59 +1,29 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FiArrowRight } from "react-icons/fi";
 
 export default function HeroBanner() {
     return (
-        <section
-            style={{
-                background: "var(--cream-2)",
-                borderBottom: "1px solid var(--border)",
-                padding: "64px 20px 56px",
-                position: "relative",
-                overflow: "hidden",
-            }}
-        >
-            {/* decorative quote mark */}
+        <section className="relative overflow-hidden bg-[var(--cream-2)] border-b border-[var(--border)] py-16 px-5 sm:px-10 lg:py-20">
+            {/* Decorative quote mark */}
             <span
+                className="absolute -top-6 right-6 font-serif text-[220px] text-[var(--cream-3)] select-none pointer-events-none leading-none hidden md:block"
                 aria-hidden="true"
-                style={{
-                    position: "absolute",
-                    top: "-24px",
-                    right: "24px",
-                    fontFamily: "var(--serif)",
-                    fontSize: "220px",
-                    color: "var(--cream-3)",
-                    lineHeight: 1,
-                    userSelect: "none",
-                    pointerEvents: "none",
-                }}
             >
-
+                ”
             </span>
 
-            <div className="max-w-6xl mx-auto">
-                <div style={{ maxWidth: "560px" }}>
-                    {/* eyebrow */}
-                    <div
-                        style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "6px",
-                            background: "var(--amber-light)",
-                            border: "1px solid #FAC775",
-                            borderRadius: "20px",
-                            padding: "4px 14px",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            color: "var(--amber)",
-                            marginBottom: "20px",
-                            letterSpacing: ".04em",
-                        }}
-                    >
+            <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+
+                {/* Left Side: Content */}
+                <div className="w-full lg:w-1/2 max-w-[560px] z-10">
+                    {/* Eyebrow */}
+                    <div className="inline-flex items-center gap-1.5 bg-[var(--amber-light)] border border-[#FAC775] rounded-full px-3.5 py-1 text-xs font-medium text-[var(--amber)] mb-5 tracking-wide">
                         <span>✦</span>
                         <span>Ebook sharing platform</span>
                     </div>
 
-                    {/* headline */}
+                    {/* Headline */}
                     <h1
                         style={{
                             fontFamily: "var(--serif)",
@@ -71,99 +41,43 @@ export default function HeroBanner() {
                         ebooks
                     </h1>
 
-                    <p
-                        style={{
-                            fontSize: "16px",
-                            color: "var(--ink-2)",
-                            lineHeight: 1.7,
-                            marginBottom: "32px",
-                            maxWidth: "440px",
-                        }}
-                    >
+
+                    {/* Subtitle */}
+                    <p className="text-base text-[var(--ink-2)] leading-relaxed mb-8 max-w-[440px]">
                         Connect with writers. Explore stories across every genre.
                         Your next favourite read is one page away.
                     </p>
 
-                    {/* CTA buttons */}
-                    <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "36px" }}>
+                    {/* CTA Buttons */}
+                    <div className="flex flex-wrap gap-3 mb-9">
                         <Link href="/browse">
-                            <button
-                                style={{
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    gap: "8px",
-                                    background: "var(--amber)",
-                                    border: "none",
-                                    color: "#fff",
-                                    fontSize: "14px",
-                                    fontWeight: 500,
-                                    padding: "11px 24px",
-                                    borderRadius: "8px",
-                                    cursor: "pointer",
-                                    fontFamily: "var(--sans)",
-                                }}
-                            >
+                            <button className="inline-flex items-center gap-2 bg-[var(--amber)] hover:opacity-90 border-none text-white text-sm font-medium px-6 py-3 rounded-lg cursor-pointer font-sans transition-all">
                                 Browse ebooks <FiArrowRight size={15} />
                             </button>
                         </Link>
                         <Link href="/register">
-                            <button
-                                style={{
-                                    background: "transparent",
-                                    border: "1px solid var(--border)",
-                                    color: "var(--ink)",
-                                    fontSize: "14px",
-                                    padding: "11px 24px",
-                                    borderRadius: "8px",
-                                    cursor: "pointer",
-                                    fontFamily: "var(--sans)",
-                                }}
-                            >
+                            <button className="bg-transparent hover:bg-[var(--cream-3)] border border-[var(--border)] text-[var(--ink)] text-sm font-medium px-6 py-3 rounded-lg cursor-pointer font-sans transition-all">
                                 Become a writer
                             </button>
                         </Link>
                     </div>
 
-                    {/* trust bar */}
-                    <div
-                        style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "20px",
-                            background: "var(--cream)",
-                            border: "1px solid var(--border)",
-                            borderRadius: "10px",
-                            padding: "10px 18px",
-                            flexWrap: "wrap",
-                        }}
-                    >
+                    {/* Trust Bar */}
+                    <div className="inline-flex flex-wrap items-center gap-5 bg-[var(--cream)] border border-[var(--border)] rounded-xl p-2.5 px-4.5">
                         {[
                             { value: "1,240+", label: "ebooks" },
                             { value: "380", label: "writers" },
                             { value: "Free", label: "to browse" },
                         ].map((item, i) => (
-                            <div key={i} style={{ display: "flex", alignItems: "baseline", gap: "5px" }}>
-                                <span
-                                    style={{
-                                        fontFamily: "var(--serif)",
-                                        fontSize: "16px",
-                                        fontWeight: 500,
-                                        color: "var(--ink)",
-                                    }}
-                                >
+                            <div key={i} className="flex items-baseline gap-1.5">
+                                <span className="font-serif text-base font-medium text-[var(--ink)]">
                                     {item.value}
                                 </span>
-                                <span style={{ fontSize: "12px", color: "var(--ink-3)" }}>
+                                <span className="text-xs text-[var(--ink-3)]">
                                     {item.label}
                                 </span>
                                 {i < 2 && (
-                                    <span
-                                        style={{
-                                            marginLeft: "14px",
-                                            color: "var(--border)",
-                                            fontSize: "16px",
-                                        }}
-                                    >
+                                    <span className="ml-3.5 text-[var(--border)] text-base select-none">
                                         ·
                                     </span>
                                 )}
@@ -171,6 +85,21 @@ export default function HeroBanner() {
                         ))}
                     </div>
                 </div>
+
+                {/* Right Side: Image Banner */}
+                <div className="w-full lg:w-1/2 flex justify-center lg:justify-end z-10">
+                    <div className="relative w-full max-w-[480px] aspect-[4/3] sm:aspect-[16/10] lg:aspect-square drop-shadow-xl hover:scale-[1.02] transition-transform duration-300">
+                        <Image
+                            src="https://i.ibb.co.com/xqtt2rxL/Ebooks.png"
+                            alt="Ebooks Hero Banner Illustration"
+                            fill
+                            priority
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                    </div>
+                </div>
+
             </div>
         </section>
     );
