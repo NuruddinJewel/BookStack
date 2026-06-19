@@ -1,18 +1,33 @@
 'use client'
 import Link from "next/link";
+import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
 import { motion } from "framer-motion";
 
-const MOCK_EBOOKS = [
-    { _id: "1", title: "The Amber House", author: "Jessica Noor", genre: "Fiction", price: 4.99, spineColor: "#BA7517", bgColor: "#E8DFD0", iconColor: "#854F0B" },
-    { _id: "2", title: "Ink & Shadow", author: "Amelia Osei", genre: "Mystery", price: 3.49, spineColor: "#0F6E56", bgColor: "#DDE8E0", iconColor: "#085041" },
-    { _id: "3", title: "The Last Cartographer", author: "Seren Adisa", genre: "Fantasy", price: 5.99, spineColor: "#534AB7", bgColor: "#E0E0E8", iconColor: "#3C3489" },
-    { _id: "4", title: "Salt & Starlight", author: "Miriam Takeda", genre: "Romance", price: 3.99, spineColor: "#993556", bgColor: "#EEDED8", iconColor: "#72243E" },
-    { _id: "5", title: "Beyond the Veil", author: "Kofi Mensah", genre: "Sci-Fi", price: 6.49, spineColor: "#185FA5", bgColor: "#D8E0E8", iconColor: "#0C447C" },
-    { _id: "6", title: "The Hollow Year", author: "Priya Anand", genre: "Horror", price: 4.49, spineColor: "#A32D2D", bgColor: "#E8D8D8", iconColor: "#791F1F" },
+const DUMMY_BOOKS = [
+    { id: 1, title: "The Silent Echo", author: "Sarah Jenkins", price: 14.99, category: "Fiction", rating: 4.8, "coverImage": "https://i.ibb.co.com/F4p8R7Yg/book1.png" },
+    { id: 2, title: "The Kite Runner", author: "Khaled Hosseini", price: 18.50, category: "Fiction", rating: 4.9, "coverImage": "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1579036753i/77203.jpg" },
+    { id: 3, title: "Shadows of the North", author: "L.R. Wright", price: 16.00, category: "Mystery", rating: 4.6, "coverImage": "https://i.ibb.co.com/sdLPNQKP/book3.png" },
+    { id: 4, title: "Gone Girl", author: "Gillian Flynn", price: 19.99, category: "Mystery", rating: 4.7, "coverImage": "https://cdn.hachette.com.au/books/9780297859406.jpg" },
+    { id: 5, title: "The Girl on the Train", author: "Paula Hawkins", price: 15.50, category: "Mystery", rating: 4.5, "coverImage": "https://www.penguin.co.uk/_next/image?url=https%3A%2F%2Fcdn.penguin.co.uk%2Fdam-assets%2Fbooks%2F9781784161750%2F9781784161750-jacket-large.jpg&w=819&q=100" },
+    { id: 6, title: "Pride and Prejudice", author: "Jane Austen", price: 12.00, category: "Romance", rating: 4.9, "coverImage": "https://m.media-amazon.com/images/I/712P0p5cXIL._AC_UF1000,1000_QL80_.jpg" },
+    { id: 7, title: "The Notebook", author: "Nicholas Sparks", price: 14.50, category: "Romance", rating: 4.7, "coverImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc7l9G-wZSEJEp0HNdMXVyNVf9zfpnH4YHDmBwqSqtNj5HlH-Zj4yP4x2r&s=10" },
+    { id: 8, title: "Project Hail Mary", author: "Andy Weir", price: 24.00, category: "Sci-Fi", rating: 4.9, "coverImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDWoDwePSMnFVBJxfz_STbab9VTmMBR1Vx8G5lPNcDdg&s=10" },
+    { id: 9, title: "Dune", author: "Frank Herbert", price: 22.50, category: "Sci-Fi", rating: 4.8, "coverImage": "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1555447414i/44767458.jpg" },
+    { id: 10, title: "The Name of the Wind", author: "Patrick Rothfuss", price: 25.00, category: "Fantasy", rating: 4.8, "coverImage": "https://cdn.othoba.com/images/thumbs/1927289_the-name-of-the-wind-paperback-.jpeg" },
+    { id: 11, title: "Mistborn: The Final Empire", author: "Brandon Sanderson", price: 21.00, category: "Fantasy", rating: 4.7, "coverImage": "https://zenoagency.com/wp-content/uploads/2016/06/Sanderson-M1-FinalEmpireUK10.jpg" },
+    { id: 12, title: "The Hobbit", author: "J.R.R. Tolkien", price: 18.00, category: "Fantasy", rating: 4.9, "coverImage": "https://m.media-amazon.com/images/I/712cDO7d73L._AC_UF1000,1000_QL80_.jpg" },
+    { id: 13, title: "The Shining", author: "Stephen King", price: 19.99, category: "Horror", rating: 4.8, "coverImage": "https://m.media-amazon.com/images/I/91U7HNa2NQL.jpg" },
+    { id: 14, title: "Dracula", author: "Bram Stoker", price: 10.99, category: "Horror", rating: 4.6, "coverImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqTyOMqaO0PFtWb8gzwFMqwaG6fMfiE16dvGRhABYIJ64jp_p4IKrgHy2W&s=10" },
+    { id: 15, title: "Steve Jobs", author: "Walter Isaacson", price: 28.00, category: "Biography", rating: 4.7, "coverImage": "https://m.media-amazon.com/images/I/71mmowWE5iL.jpg" },
+    { id: 16, title: "The Diary of a Young Girl", author: "Anne Frank", price: 15.00, category: "Biography", rating: 4.9, "coverImage": "https://storage.googleapis.com/circlesoft/document/photos/004/452/044/original_diary_1.jpeg?1753234296" },
+    { id: 17, title: "Atomic Habits", author: "James Clear", price: 22.00, category: "Self-Help", rating: 4.9, "coverImage": "https://bhumika.com.bd/wp-content/uploads/2026/03/Atomic-Habit.jpg" },
+    { id: 18, title: "Deep Work", author: "Cal Newport", price: 18.50, category: "Self-Help", rating: 4.8, "coverImage": "https://miro.medium.com/v2/1*KL67NUR5iyhggxTqzVQg5A.jpeg" },
+    { id: 19, title: "Me Before You", author: "Jojo Moyes", price: 13.99, category: "Romance", rating: 4.8, "coverImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWntTmvKX9Ow5nDukVFAuuZ07Bpo4dz-g1G-9wPQA8Xg&s=10" },
+    { id: 20, title: "Educated", author: "Tara Westover", price: 20.00, category: "Biography", rating: 4.9, "coverImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmF6jZoEd14atpPB-C7nOhiuGYi0WrQN0O5gY6EPtG_g&s=10" },
 ];
 
-const DUAL_EBOOKS = [...MOCK_EBOOKS, ...MOCK_EBOOKS];
+const DUAL_EBOOKS = [...DUMMY_BOOKS, ...DUMMY_BOOKS];
 
 export default function FeaturedEbooks() {
     return (
@@ -42,21 +57,20 @@ export default function FeaturedEbooks() {
                         width: "max-content",
                     }}
                     animate={{
-
                         x: ["-50%", "0%"],
                     }}
                     transition={{
                         ease: "linear",
-                        duration: 20,
+                        duration: 40,
                         repeat: Infinity,
                     }}
                 >
                     {DUAL_EBOOKS.map((book, index) => (
                         <div
-                            key={`${book._id}-${index}`}
+                            key={`${book.id}-${index}`}
                             style={{ width: "160px", flexShrink: 0 }}
                         >
-                            <Link href={`/ebooks/${book._id}`} style={{ textDecoration: "none" }}>
+                            <Link href={`/ebooks/${book.id}`} style={{ textDecoration: "none" }}>
                                 <div
                                     style={{
                                         background: "var(--color-cream)",
@@ -76,16 +90,20 @@ export default function FeaturedEbooks() {
                                     }}
                                 >
                                     {/* Cover */}
-                                    <div style={{ height: "130px", background: book.bgColor, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-                                        {/* Spine */}
-                                        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "7px", background: book.spineColor }} />
-                                        <span style={{ fontFamily: "var(--font-serif)", fontSize: "36px", color: book.iconColor, opacity: 0.5 }}>✦</span>
+                                    <div style={{ height: "130px", position: "relative", background: "var(--color-ink, #1a1a1a)" }}>
+                                        <Image
+                                            src={book.coverImage}
+                                            alt={book.title}
+                                            fill
+                                            sizes="160px"
+                                            style={{ objectFit: "cover" }}
+                                        />
                                     </div>
 
                                     {/* Meta */}
                                     <div style={{ padding: "12px 12px 14px" }}>
                                         <div style={{ fontSize: "10px", color: "var(--color-ink-3)", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "4px" }}>
-                                            {book.genre}
+                                            {book.category}
                                         </div>
                                         <div style={{ fontFamily: "var(--font-serif)", fontSize: "14px", fontWeight: 500, color: "var(--color-ink)", lineHeight: 1.3, marginBottom: "4px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                             {book.title}
