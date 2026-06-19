@@ -1,4 +1,4 @@
-import RoleGuard from "@/components/ui/RoleGuard";
+import RoleGuard from "@/components/ui/(shared)/RoleGuard";
 
 export const metadata = {
     title: "Writer Studio | F.able",
