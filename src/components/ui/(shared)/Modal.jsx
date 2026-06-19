@@ -9,7 +9,7 @@ export default function Modal({
     children,
     maxWidth = 'max-w-lg'
 }) {
-    // এস্কেপ বাটন চাপলে মোডাল ক্লোজ করা এবং ব্যাকগ্রাউন্ড স্ক্রল অফ করা
+    // 
     useEffect(() => {
         const handleEscape = (e) => {
             if (e.key === 'Escape') onClose();
@@ -17,7 +17,7 @@ export default function Modal({
 
         if (isOpen) {
             document.addEventListener('keydown', handleEscape);
-            document.body.style.overflow = 'hidden'; // পেজ স্ক্রল বন্ধ করে
+            document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
         }
