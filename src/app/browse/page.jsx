@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FiSearch, FiStar, FiFilter } from 'react-icons/fi';
+import { useSearchParams, useRouter } from 'next/navigation'; // useRouter 
+import { FiFilter, FiSearch, FiStar } from 'react-icons/fi';
 
 const CATEGORIES = ["All", "Fiction", "Mystery", "Romance", "Sci-Fi", "Fantasy", "Horror", "Biography", "Self-Help"];
 
@@ -10,10 +11,26 @@ export default function BrowsePage() {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
-    const [activeCategory, setActiveCategory] = useState("All");
 
-    // DataFetch From Backend
+    const searchParams = useSearchParams();
+    const router = useRouter(); // URL Update
 
+    // URL active Category
+    const genreParam = searchParams.get('genre') || 'All';
+    const activeCategory = CATEGORIES.find(
+        (cat) => cat.toLowerCase() === genreParam.toLowerCase()
+    ) || "All";
+
+    // URL change
+    const handleCategoryChange = (category) => {
+        if (category === "All") {
+            router.push('/browse');
+        } else {
+            router.push(`/browse?genre=${category.toLowerCase()}`);
+        }
+    };
+
+    // DataFetch From Backend 
     useEffect(() => {
         async function fetchBooks() {
             try {
@@ -43,13 +60,13 @@ export default function BrowsePage() {
 
         const matchesSearch = title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             author.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory = activeCategory === "All" || category === activeCategory;
+
+        const matchesCategory = activeCategory === "All" || category.toLowerCase() === activeCategory.toLowerCase();
         return matchesSearch && matchesCategory;
     });
 
     return (
         <div className="min-h-screen bg-[var(--cream)] text-[var(--ink)]">
-
             {/* Header Section */}
             <header className="bg-[var(--cream-2)] border-b border-[var(--border)] pt-16 pb-12 px-6 sm:px-12 text-center">
                 <div className="max-w-4xl mx-auto space-y-4">
@@ -88,7 +105,7 @@ export default function BrowsePage() {
                         {CATEGORIES.map((category) => (
                             <button
                                 key={category}
-                                onClick={() => setActiveCategory(category)}
+                                onClick={() => handleCategoryChange(category)}
                                 className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-colors cursor-pointer ${activeCategory === category
                                     ? 'bg-[var(--ink)] text-[var(--cream)] border-[var(--ink)]'
                                     : 'bg-[var(--cream-2)] text-[var(--ink-2)] border-[var(--border)] hover:border-[var(--ink-3)]'
@@ -102,7 +119,6 @@ export default function BrowsePage() {
 
                 {/* Ebooks Grid / Loading / Empty State */}
                 {loading ? (
-                    /* Loading Spinner State */
                     <div className="py-20 text-center flex flex-col items-center justify-center">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--ink)]"></div>
                         <p className="mt-4 text-[var(--ink-3)]">Loading library data...</p>
@@ -110,7 +126,6 @@ export default function BrowsePage() {
                 ) : filteredBooks.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                         {filteredBooks.map((book) => {
-                            // 'id' বা MongoDB '_id' 
                             const bookId = book.id || book._id;
                             return (
                                 <Link
@@ -118,7 +133,6 @@ export default function BrowsePage() {
                                     key={bookId}
                                     className="group flex flex-col bg-[var(--cream-2)] border border-[var(--border)] rounded-2xl overflow-hidden hover:shadow-md transition-all duration-300 no-underline text-[var(--ink)]"
                                 >
-                                    {/* Book Cover Image */}
                                     <div className="aspect-[2/3] w-full relative overflow-hidden bg-[var(--ink)]">
                                         {book.coverImage ? (
                                             <Image
@@ -127,14 +141,12 @@ export default function BrowsePage() {
                                                 fill
                                                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 25vw"
                                                 className="object-cover"
-                                                priority={book.id <= 4}
                                             />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-[var(--cream-2)] text-xs">No Cover</div>
                                         )}
                                     </div>
 
-                                    {/* Book Info */}
                                     <div className="p-5 flex flex-col flex-1">
                                         <div className="flex justify-between items-start gap-2 mb-2">
                                             <h4 className="font-semibold text-base line-clamp-1 m-0 group-hover:text-[var(--amber)] transition-colors">
@@ -165,10 +177,10 @@ export default function BrowsePage() {
                         </div>
                         <h3 className="text-xl font-serif font-bold text-[var(--ink)] mb-2">No books found</h3>
                         <p className="text-[var(--ink-3)] max-w-md mx-auto">
-                            {`We couldn't find any books matching "${searchQuery}" in the "${activeCategory}" category.`}
+                            {`We couldn't find any books matching "${searchQuery}" in the " ${activeCategory} " category.`}
                         </p>
                         <button
-                            onClick={() => { setSearchQuery(""); setActiveCategory("All"); }}
+                            onClick={() => { setSearchQuery(""); router.push('/browse'); }}
                             className="mt-6 px-6 py-2.5 bg-[var(--ink)] text-[var(--cream)] rounded-lg text-sm font-medium hover:opacity-90 transition-opacity border-none cursor-pointer"
                         >
                             Clear Filters

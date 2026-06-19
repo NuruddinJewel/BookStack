@@ -354,9 +354,9 @@ export default function Navbar() {
                 </nav>
 
                 <div className="flex items-center gap-3">
-                    <button aria-label="Search" className="bg-none border-none cursor-pointer flex items-center p-1" style={{ color: "var(--ink-3)" }}>
+                    {/* <button aria-label="Search" className="bg-none border-none cursor-pointer flex items-center p-1" style={{ color: "var(--ink-3)" }}>
                         <FiSearch size={18} />
-                    </button>
+                    </button> */}
 
                     <div className="hidden md:block">
                         {isPending ? (

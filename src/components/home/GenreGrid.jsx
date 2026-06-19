@@ -3,66 +3,36 @@
 import Link from "next/link";
 
 const genres = [
-    { name: "Fiction", icon: "✦", color: "#FAEEDA", border: "#FAC775", text: "#854F0B" },
-    { name: "Mystery", icon: "◈", color: "#E1F5EE", border: "#9FE1CB", text: "#085041" },
-    { name: "Romance", icon: "◇", color: "#FBEAF0", border: "#F4C0D1", text: "#72243E" },
-    { name: "Sci-Fi", icon: "◉", color: "#EEEDFE", border: "#CECBF6", text: "#3C3489" },
-    { name: "Fantasy", icon: "✧", color: "#E8DFD0", border: "#D8CEBC", text: "#5C4F3A" },
-    { name: "Horror", icon: "◆", color: "#FCEBEB", border: "#F7C1C1", text: "#791F1F" },
-    { name: "Biography", icon: "◎", color: "#EAF3DE", border: "#C0DD97", text: "#27500A" },
-    { name: "Self-help", icon: "◐", color: "#E6F1FB", border: "#B5D4F4", text: "#0C447C" },
+    { name: "Fiction", icon: "✦", color: "bg-[#FAEEDA]", border: "border-[#FAC775]", text: "text-[#854F0B]" },
+    { name: "Mystery", icon: "◈", color: "bg-[#E1F5EE]", border: "border-[#9FE1CB]", text: "text-[#085041]" },
+    { name: "Romance", icon: "◇", color: "bg-[#FBEAF0]", border: "border-[#F4C0D1]", text: "text-[#72243E]" },
+    { name: "Sci-Fi", icon: "◉", color: "bg-[#EEEDFE]", border: "border-[#CECBF6]", text: "text-[#3C3489]" },
+    { name: "Fantasy", icon: "✧", color: "bg-[#E8DFD0]", border: "border-[#D8CEBC]", text: "text-[#5C4F3A]" },
+    { name: "Horror", icon: "◆", color: "bg-[#FCEBEB]", border: "border-[#F7C1C1]", text: "text-[#791F1F]" },
+    { name: "Biography", icon: "◎", color: "bg-[#EAF3DE]", border: "border-[#C0DD97]", text: "text-[#27500A]" },
+    { name: "Self-help", icon: "◐", color: "bg-[#E6F1FB]", border: "border-[#B5D4F4]", text: "text-[#0C447C]" },
 ];
 
 export default function GenreGrid() {
     return (
-        <section
-            style={{
-                background: "var(--cream-2)",
-                borderBottom: "1px solid var(--border)",
-                padding: "28px 20px",
-            }}
-        >
+        <section className="bg-[var(--cream-2)] border-b border-[var(--border)] py-8 px-5">
             <div className="max-w-6xl mx-auto">
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))",
-                        gap: "10px",
-                    }}
-                >
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
                     {genres.map((g) => (
                         <Link
                             key={g.name}
+                            // URL এ ?genre=fiction 
                             href={`/browse?genre=${g.name.toLowerCase()}`}
-                            style={{ textDecoration: "none" }}
+                            className="no-underline block group"
                         >
                             <div
-                                style={{
-                                    background: g.color,
-                                    border: `1px solid ${g.border}`,
-                                    borderRadius: "10px",
-                                    padding: "14px 10px",
-                                    textAlign: "center",
-                                    cursor: "pointer",
-                                    transition: "transform .15s, box-shadow .15s",
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = "translateY(-2px)";
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = "translateY(0)";
-                                }}
+                                className={`border ${g.color} ${g.border} rounded-xl p-4 text-center cursor-pointer transition-all duration-200 transform group-hover:-translate-y-1 group-hover:shadow-sm`}
                             >
-                                <div style={{ fontSize: "20px", color: g.text, marginBottom: "6px" }}>
+                                <div className={`text-2xl ${g.text} mb-1.5`}>
                                     {g.icon}
                                 </div>
                                 <div
-                                    style={{
-                                        fontSize: "12px",
-                                        fontWeight: 500,
-                                        color: g.text,
-                                        fontFamily: "var(--sans)",
-                                    }}
+                                    className={`text-xs font-semibold ${g.text} font-sans tracking-wide`}
                                 >
                                     {g.name}
                                 </div>
