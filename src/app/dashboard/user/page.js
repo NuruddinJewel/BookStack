@@ -40,6 +40,13 @@ export default function UserPage() {
                     </div>
                 </div>
             </div>
+            {/* <form action="/api/checkout_sessions" method="POST">
+                <section>
+                    <button type="submit" role="link">
+                        Checkout
+                    </button>
+                </section>
+            </form> */}
         </PrivateRoute>
     );
 }
