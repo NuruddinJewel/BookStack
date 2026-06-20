@@ -44,7 +44,7 @@ export default function HeroBanner() {
 
                     {/* Subtitle */}
                     <p className="text-base text-[var(--ink-2)] leading-relaxed mb-8 max-w-[440px]">
-                        Connect with writers. Explore stories across every genre.
+                        Connect with writers. Explore stories across every genre. <br />
                         Your next favourite read is one page away.
                     </p>
 
