@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📚 Fable – Ebook Sharing Platform
 
-## Getting Started
+**Fable** is a premium digital platform meticulously crafted to connect ebook lovers, avid readers, and collectors with talented, original writers. The platform balances aesthetic reading experiences with rigorous studio management, allowing readers to discover content seamlessly while offering writers a full-fledged environment to monetize and track their literary masterpieces.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌟 Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 📖 Reader Space (User Portal)
+* **Discover & Read:** Seamlessly browse thousands of original ebooks across a multitude of genres via an intuitive filter-by-genre layout.
+* **Personalized Dashboard:** A minimalist personal library tracking purchased ebooks, quick access to bought content, and total bookmark/wishlist metrics.
+* **Smart Search:** Real-time search engine to locate titles or authors instantly.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### ✍️ Writer Studio (Writer Portal)
+* **One-Time Verification:** Aspiring authors gain publishing rights through a secure, one-time verification payment infrastructure via Stripe.
+* **Author Metrics Dashboard:** Track total published ebooks, precise book sales performance, and a clear net earnings tally inside a dedicated studio .
+* **Full Inventory Management:** Seamless interfaces to add new ebooks, review previous sales history, and curate bookmarked content.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 👑 System Governance (Admin Portal)
+* **Comprehensive Overview:** A central control system displaying total platform users, active ebooks live on the platform, gross platform revenue, and critical metrics .
+* **Content & User Moderation:** Complete system oversight to approve pending author registrations, manage active platform ebooks, and review all active transactional records.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tech Stack & NPM Packages Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 💻 Front-End
+* **Framework:** Next.js 
+* **Styling & UI Components:** DaisyUI & Tailwind CSS (for the rich cream and ink typography interface)
+* **Icons Elements:** `lucide-react`, `react-icons`
+* **Payment Processing:** `@stripe/stripe-js` / `@stripe/react-stripe-js`
+* **Authentication Client:** `better-auth`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ⚙️ Back-End
+* **Runtime Environment:** Node.js with Express.js framework
+* **Database Driver:** MongoDB Node driver (Object/Document mapping)
+* **Payment Handler:** `stripe` (Server-side SDK integration)
+* **Environment Utilities:** `dotenv`
+* **Security & Middleware:** `cors`
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🎁 **Live Project URL:** [https://book-stack-gules.vercel.app](https://book-stack-gules.vercel.app)
