@@ -7,19 +7,10 @@ export default function AdminUsersPage() {
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(null);
 
-    // Admin User List
     const fetchAllUsers = async (signal) => {
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-            const token = localStorage.getItem('token');
-
-            const res = await fetch(`${apiUrl}/admin/users`, {
-                signal,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+            const res = await fetch(`${apiUrl}/admin/users`, { signal });
 
             if (res.ok) {
                 const data = await res.json();
@@ -42,24 +33,17 @@ export default function AdminUsersPage() {
         return () => controller.abort();
     }, []);
 
-    // User Role (User <-> Writer <-> Admin)
     const handleRoleChange = async (userId, newRole) => {
         setActionLoading(userId);
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-            const token = localStorage.getItem('token');
-
             const res = await fetch(`${apiUrl}/admin/users/${userId}/role`, {
                 method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ role: newRole })
             });
 
             if (res.ok) {
-                // New Role set
                 setUsers(users.map(user => user._id === userId ? { ...user, role: newRole } : user));
             } else {
                 alert("Failed to update user role");
@@ -71,21 +55,13 @@ export default function AdminUsersPage() {
         }
     };
 
-    // User Delete
     const handleDeleteUser = async (userId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this user account?");
         if (!confirmDelete) return;
 
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-            const token = localStorage.getItem('token');
-
-            const res = await fetch(`${apiUrl}/admin/users/${userId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const res = await fetch(`${apiUrl}/admin/users/${userId}`, { method: 'DELETE' });
 
             if (res.ok) {
                 setUsers(users.filter(user => user._id !== userId));
@@ -108,7 +84,6 @@ export default function AdminUsersPage() {
 
     return (
         <div className="space-y-6">
-            {/* Header */}
             <div>
                 <h1 className="text-2xl font-serif font-bold tracking-tight text-[var(--ink)] m-0">
                     User Management
@@ -118,7 +93,6 @@ export default function AdminUsersPage() {
                 </p>
             </div>
 
-            {/* Users Table */}
             {users.length > 0 ? (
                 <div className="bg-[var(--cream-2)] border border-[var(--border)] rounded-2xl overflow-hidden shadow-sm">
                     <div className="overflow-x-auto">
@@ -134,7 +108,6 @@ export default function AdminUsersPage() {
                             <tbody className="divide-y divide-[var(--border)]">
                                 {users.map((user) => (
                                     <tr key={user._id} className="hover:bg-[rgba(0,0,0,0.01)] transition-colors">
-                                        {/* User Details */}
                                         <td className="p-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-9 h-9 bg-[var(--cream)] border border-[var(--border)] rounded-full flex items-center justify-center text-[var(--ink)] font-serif font-bold text-sm">
@@ -146,16 +119,10 @@ export default function AdminUsersPage() {
                                                 </div>
                                             </div>
                                         </td>
-
-                                        {/* Email */}
-                                        <td className="p-4 text-sm text-[var(--ink-2)]">
-                                            {user.email}
-                                        </td>
-
-                                        {/* Dynamic Role Selector */}
+                                        <td className="p-4 text-sm text-[var(--ink-2)]">{user.email}</td>
                                         <td className="p-4">
                                             <select
-                                                value={user.role}
+                                                value={user.role || 'user'}
                                                 disabled={actionLoading === user._id}
                                                 onChange={(e) => handleRoleChange(user._id, e.target.value)}
                                                 className="px-3 py-1.5 bg-[var(--cream)] border border-[var(--border)] rounded-xl text-xs font-medium text-[var(--ink)] outline-none focus:border-[var(--ink)] transition-colors cursor-pointer disabled:opacity-50"
@@ -165,8 +132,6 @@ export default function AdminUsersPage() {
                                                 <option value="admin">Admin</option>
                                             </select>
                                         </td>
-
-                                        {/* Delete Action */}
                                         <td className="p-4">
                                             <button
                                                 onClick={() => handleDeleteUser(user._id)}

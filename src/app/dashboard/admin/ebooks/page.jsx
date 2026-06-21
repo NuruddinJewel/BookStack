@@ -1,26 +1,17 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { FiBook, FiCheck, FiX, FiTrash2, FiStar } from 'react-icons/fi';
+import { FiBook, FiCheck, FiX, FiTrash2 } from 'react-icons/fi';
 
 export default function AdminEbooksPage() {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [actionId, setActionId] = useState(null);
 
-    // Backend Books data fetch
     const fetchAllBooks = async (signal) => {
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-            const token = localStorage.getItem('token');
-
-            const res = await fetch(`${apiUrl}/admin/ebooks`, {
-                signal,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+            const res = await fetch(`${apiUrl}/admin/ebooks`, { signal });
 
             if (res.ok) {
                 const data = await res.json();
@@ -43,24 +34,17 @@ export default function AdminEbooksPage() {
         return () => controller.abort();
     }, []);
 
-    // Book Status (Approve / Reject)
     const handleUpdateStatus = async (bookId, newStatus) => {
         setActionId(bookId);
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-            const token = localStorage.getItem('token');
-
             const res = await fetch(`${apiUrl}/admin/ebooks/${bookId}/status`, {
                 method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
             });
 
             if (res.ok) {
-                // UI-Status Update
                 setBooks(books.map(book => book._id === bookId ? { ...book, status: newStatus } : book));
             } else {
                 alert("Failed to update book status");
@@ -72,21 +56,13 @@ export default function AdminEbooksPage() {
         }
     };
 
-    // Book Delete
     const handleDeleteBook = async (bookId) => {
         const confirmDelete = window.confirm("Are you sure you want to permanently delete this ebook?");
         if (!confirmDelete) return;
 
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-            const token = localStorage.getItem('token');
-
-            const res = await fetch(`${apiUrl}/admin/ebooks/${bookId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const res = await fetch(`${apiUrl}/admin/ebooks/${bookId}`, { method: 'DELETE' });
 
             if (res.ok) {
                 setBooks(books.filter(book => book._id !== bookId));
@@ -109,17 +85,15 @@ export default function AdminEbooksPage() {
 
     return (
         <div className="space-y-6">
-            {/* Header */}
             <div>
                 <h1 className="text-2xl font-serif font-bold tracking-tight text-[var(--ink)] m-0">
                     Manage All Ebooks
                 </h1>
                 <p className="text-sm text-[var(--ink-3)] mt-1 m-0">
-                    Review submissions, approve new releases, or remove content.
+                    Review submissions, publish new releases, or remove content.
                 </p>
             </div>
 
-            {/* Ebooks Table / List View */}
             {books.length > 0 ? (
                 <div className="bg-[var(--cream-2)] border border-[var(--border)] rounded-2xl overflow-hidden shadow-sm">
                     <div className="overflow-x-auto">
@@ -135,8 +109,6 @@ export default function AdminEbooksPage() {
                             <tbody className="divide-y divide-[var(--border)]">
                                 {books.map((book) => (
                                     <tr key={book._id} className="hover:bg-[rgba(0,0,0,0.01)] transition-colors">
-
-                                        {/* Cover and Title */}
                                         <td className="p-4">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-12 h-16 bg-[var(--ink)] relative rounded-lg overflow-hidden border border-[var(--border)] flex-shrink-0">
@@ -154,49 +126,39 @@ export default function AdminEbooksPage() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-serif font-bold text-[var(--ink)] m-0 line-clamp-1">{book.title}</p>
-                                                    <p className="text-xs text-[var(--ink-3)] m-0">Writer ID: {book.writerId}</p>
+                                                    <p className="text-xs text-[var(--ink-3)] m-0">By {book.writerName || book.writerId}</p>
                                                 </div>
                                             </div>
                                         </td>
-
-                                        {/* Category & Price */}
                                         <td className="p-4">
                                             <p className="text-sm text-[var(--ink)] m-0 font-medium">{book.category}</p>
                                             <p className="text-xs text-[var(--ink-3)] m-0 font-semibold">${book.price ? book.price.toFixed(2) : "0.00"}</p>
                                         </td>
-
-                                        {/* Status Badge */}
                                         <td className="p-4">
-                                            <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${book.status === 'approved'
+                                            <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${book.status === 'published'
                                                 ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
-                                                : book.status === 'rejected'
-                                                    ? 'bg-rose-50 border-rose-200 text-rose-700'
-                                                    : 'bg-amber-50 border-amber-200 text-amber-700'
+                                                : 'bg-amber-50 border-amber-200 text-amber-700'
                                                 }`}>
-                                                {book.status || 'pending'}
+                                                {book.status || 'published'}
                                             </span>
                                         </td>
-
-                                        {/* Moderation Controls */}
                                         <td className="p-4">
                                             <div className="flex items-center gap-2">
-                                                {book.status !== 'approved' && (
+                                                {book.status !== 'published' ? (
                                                     <button
                                                         disabled={actionId === book._id}
-                                                        onClick={() => handleUpdateStatus(book._id, 'approved')}
+                                                        onClick={() => handleUpdateStatus(book._id, 'published')}
                                                         className="p-2 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl hover:bg-emerald-100 transition-colors cursor-pointer"
-                                                        title="Approve Book"
+                                                        title="Publish Book"
                                                     >
                                                         <FiCheck size={14} />
                                                     </button>
-                                                )}
-
-                                                {book.status === 'pending' && (
+                                                ) : (
                                                     <button
                                                         disabled={actionId === book._id}
-                                                        onClick={() => handleUpdateStatus(book._id, 'rejected')}
+                                                        onClick={() => handleUpdateStatus(book._id, 'unpublished')}
                                                         className="p-2 bg-amber-50 border border-amber-200 text-amber-600 rounded-xl hover:bg-amber-100 transition-colors cursor-pointer"
-                                                        title="Reject Book"
+                                                        title="Unpublish Book"
                                                     >
                                                         <FiX size={14} />
                                                     </button>
@@ -211,7 +173,6 @@ export default function AdminEbooksPage() {
                                                 </button>
                                             </div>
                                         </td>
-
                                     </tr>
                                 ))}
                             </tbody>
