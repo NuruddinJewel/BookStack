@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
-
 export function middleware(request) {
     const currentPath = request.nextUrl.pathname;
+    const allCookies = request.cookies.getAll();
+    const sessionCookie = allCookies.find(cookie =>
+        cookie.name.includes("better-auth.session_token")
+    );
+    const sessionToken = sessionCookie?.value;
 
-    // Better-Auth Session Token
-    const sessionToken =
-        request.cookies.get("better-auth.session_token")?.value ||
-        request.cookies.get("__Secure-better-auth.session_token")?.value;
-
-    // Protected Routes
     const isProtected =
         currentPath.startsWith("/dashboard/user") ||
         currentPath.startsWith("/dashboard/writer") ||
-        currentPath.startsWith("/dashboard/admin") ||
-        /^\/ebooks\/.+/.test(currentPath);
+        currentPath.startsWith("/dashboard/admin");
 
-    // Protected Page — if not login then redirect
+    // Protected Page — if not logged in then redirect
     if (isProtected && !sessionToken) {
         const loginUrl = new URL("/login", request.url);
         loginUrl.searchParams.set("callbackUrl", currentPath);
@@ -30,6 +27,5 @@ export const config = {
         "/dashboard/user/:path*",
         "/dashboard/writer/:path*",
         "/dashboard/admin/:path*",
-        "/ebooks/:id+",
     ],
 };
