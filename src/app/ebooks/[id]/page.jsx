@@ -7,8 +7,10 @@ import BuyButton from '@/components/ebooks/BuyButton';
 async function getBookDetails(id) {
     try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+        //Server
         const res = await fetch(`${apiUrl}/ebooks/${id}`, {
-            cache: 'no-store'
+            cache: 'no-store',
         });
 
         if (!res.ok) return null;
@@ -64,11 +66,6 @@ export default async function EbookDetailsPage({ params }) {
                                 </h1>
                             </>
                         )}
-                        {/* {book.isSold && (
-                            <span className="absolute top-3 right-3 bg-[var(--coral)] text-white text-xs font-medium px-3 py-1 rounded-full z-10">
-                                Sold
-                            </span>
-                        )} */}
                     </div>
 
                     <div className="flex-1 space-y-6">
@@ -96,14 +93,6 @@ export default async function EbookDetailsPage({ params }) {
                             </div>
                         </div>
 
-                        {/* <div className="space-y-4 text-[var(--ink-3)] leading-relaxed">
-                            <h3 className="text-lg font-semibold text-[var(--ink)] m-0">Synopsis</h3>
-                            <p>
-                                {book.description ? book.description : `Dive into the captivating world of ${book.title}.`}
-                            
-                            </p>
-                        </div> */}
-
                         <div className="space-y-4 text-[var(--ink-3)] leading-relaxed">
                             <h3 className="text-lg font-semibold text-[var(--ink)] m-0">Synopsis</h3>
                             <p>
@@ -117,7 +106,6 @@ export default async function EbookDetailsPage({ params }) {
                                 )}
                             </p>
                         </div>
-
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <BuyButton book={book} />
