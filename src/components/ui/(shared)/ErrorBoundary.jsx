@@ -64,8 +64,6 @@ class ErrorBoundary extends Component {
                                 <FiRefreshCw size={16} />
                                 Try Again
                             </button>
-
-                            {/*  <a> এর বদলে <Link> ব্যবহার করা হলো */}
                             <Link
                                 href="/"
                                 className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-transparent text-[var(--ink-2)] border border-[var(--border)] rounded-lg text-sm font-medium hover:bg-[var(--cream-3)] transition-all no-underline text-center"

@@ -9,17 +9,24 @@ export default function PrivateRoute({ children }) {
 
     useEffect(() => {
         if (!isPending && !session) {
-            router.push("/login");
+            router.replace("/login");
         }
     }, [session, isPending, router]);
 
     if (isPending) {
         return (
-            <div className="min-h-screen bg-[var(--cream)] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[var(--ink)]"></div>
+            <div className="min-h-screen bg-[var(--cream)] flex flex-col items-center justify-center gap-4">
+                <span className="loading loading-ring loading-lg text-[var(--ink)] w-12 h-12"></span>
+                <p className="text-sm font-serif text-[var(--ink-2)] tracking-wide animate-pulse">
+                    Verifying shelf access...
+                </p>
             </div>
         );
     }
 
-    return session ? <>{children}</> : null;
+    if (session) {
+        return <>{children}</>;
+    }
+
+    return null;
 }
