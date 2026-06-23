@@ -18,7 +18,7 @@ export default function Loading() {
                         Opening the Fable...
                     </h3>
                     <p className="text-sm text-[var(--ink-3)] tracking-wide">
-                        Waking up our archival shelves. Please hold on a brief moment.
+                        Accessing archival system. Please wait a brief moment...
                     </p>
                 </div>
                 <progress className="progress progress-warning w-44 bg-[var(--cream-2)] border border-[var(--border)] h-1.5"></progress>

@@ -7,7 +7,6 @@ import BuyButton from '@/components/ebooks/BuyButton';
 async function getBookDetails(id) {
     try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
         //Server
         const res = await fetch(`${apiUrl}/ebooks/${id}`, {
             cache: 'no-store',
